@@ -6,12 +6,6 @@ box:
     - '3000'
     - '3001'
 
-services:
-  - id: mongo
-    tag: 3.4.1
-    ports:
-     - '27017'
-
 dev:
   steps:
     - script:
