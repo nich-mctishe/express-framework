@@ -1,5 +1,7 @@
 # Express Framework
 
+[![wercker status](https://app.wercker.com/status/bb5c4deb25df9531aa699406b91c1fae/s/master "wercker status")](https://app.wercker.com/project/byKey/bb5c4deb25df9531aa699406b91c1fae)
+
 Docker/Wercker based Express framework, using Dokku for deployment
 
 ## Local Development
