@@ -8,12 +8,58 @@ html, body {
 body {
   margin: 0;
   padding: 0;
-  width: 100%;
-  display: table;
   font-weight: 100;
   font-family: 'Open Sans';
+}
+
+#body-wrapper {
+  padding-top: 10px;
+  margin-top: -10px;
+}
+
+body.index {
   background-color: mix(#cccccc, #ffffff);
   background: linear-gradient(160deg, #cccccc, #ffffff);
+
+  #body-wrapper {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: table;
+  }
+}
+
+@define-extend word-break {
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+}
+
+.word-break {
+  @extend word-break;
+}
+
+body.error {
+
+  .error-container {
+    margin: 2em;
+  }
+
+  pre {
+    background: #eeeeee;
+    margin: 1.5em 0;
+    padding: 1.5em;
+    max-width: 100%;
+    overflow: scroll;
+
+    &.url,
+    &.message {
+      @extend word-break;
+      white-space: normal;
+      overflow: visible;
+    }
+  }
 }
 
 .container {
