@@ -38,7 +38,8 @@
     "debug": "2.6.0",
     "pug": "2.0.0-beta10",
     "lodash": "4.17.4",
-    "async": "2.1.4"
+    "async": "2.1.4",
+    "morgan": "1.8.1"
   },
   "scripts": {
     "lint"   : "node_modules/.bin/standard",
