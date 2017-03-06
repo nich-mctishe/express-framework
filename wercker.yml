@@ -39,7 +39,7 @@ build:
   steps:
     - npm-install:
         name: install node dependencies
-        options: --no-optional
+        options: --no-optional --silent
         cwd: $WERCKER_ROOT/src
     - npm-test:
         name: run tests
@@ -100,7 +100,7 @@ deploy:
         name: Add everything to the repository
         code: |
           git add .
-          git commit -m "Result of deploy $WERCKER_GIT_COMMIT"
+          git commit --quiet -m "Result of deploy $WERCKER_GIT_COMMIT"
     - script:
         name: Push to dokku
         code: |
