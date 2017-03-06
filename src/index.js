@@ -12,7 +12,7 @@ app.set('view engine', 'pug')
 app.set('views', './templates/views')
 
 app.use(express.static('public'))
-app.use(morgan(development ? 'dev' : 'common'))
+app.use(morgan(development ? 'dev' : ':remote-addr [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'))
 
 require('./routes')(app)
 require('./utils/watch')
