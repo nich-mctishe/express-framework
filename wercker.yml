@@ -92,14 +92,15 @@ deploy-swarm:
         env: NODE_ENV=production
         ports: "80"
     - add-to-known_hosts:
+        name: add to known hosts
         hostname: $DOCKER_SWARM_HOST
     - add-ssh-key:
+        name: add ssh key
         keyname: DOCKER_SWARM_KEY
     - script:
-        name: Deploy image
+        name: deploy image
         code: |
-          DOCKER_SWARM_REPLICAS=${DOCKER_SWARM_REPLICAS:-1}
           DOCKER_SWARM_SERVICE_NAME=${DOCKER_SWARM_SERVICE_NAME:-$WERCKER_GIT_REPOSITORY}
           ssh root@$DOCKER_SWARM_HOST "docker service ps $DOCKER_SWARM_SERVICE_NAME \
           && docker service update --detach=false --update-order="start-first" --with-registry-auth --image $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT $DOCKER_SWARM_SERVICE_NAME \
-          || echo docker service create --detach=false --name $DOCKER_SWARM_SERVICE_NAME --publish 80:80 --replicas 1 --with-registry-auth $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT"
+          || echo docker service create --detach=false --name $DOCKER_SWARM_SERVICE_NAME --publish 8080:80 --replicas 1 --with-registry-auth $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT"
