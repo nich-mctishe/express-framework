@@ -89,7 +89,7 @@ deploy-swarm:
         registry: $DOCKER_REGISTRY
         working-dir: $WERCKER_ROOT/src
         cmd: node index
-        env: "NODE_ENV=production","DEBUG=app app:*","DEBUG_COLORS=1"
+        env: NODE_ENV=production,DEBUG=app app:*,DEBUG_COLORS=1
         ports: "80"
     - add-to-known_hosts:
         name: add to known hosts
