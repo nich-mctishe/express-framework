@@ -1,3 +1,5 @@
+require('docker-secrets-to-env')
+
 var express = require('express')
 var morgan = require('morgan')
 
