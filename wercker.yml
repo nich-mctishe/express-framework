@@ -98,6 +98,7 @@ deploy-swarm:
     - script:
         name: Deploy image
         code: |
+          REPLICAS=${DOCKER_SWARM_REPLICAS:-1}
           ssh root@$DOCKER_SWARM_HOST "docker service ps $DOCKER_SWARM_SERVICE_NAME \
-          && docker service update --replicas 1 --with-registry-auth --image $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT $DOCKER_SWARM_SERVICE_NAME \
-          || docker service create --name $DOCKER_SWARM_SERVICE_NAME --publish 80:80 --replicas 1 --with-registry-auth $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT"
+          && docker service update --detach=false --replicas $REPLICAS --with-registry-auth --image $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT $DOCKER_SWARM_SERVICE_NAME \
+          || docker service create --detach=false --name $DOCKER_SWARM_SERVICE_NAME --publish 80:80 --replicas $REPLICAS --with-registry-auth $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT"
