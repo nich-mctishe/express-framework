@@ -101,5 +101,5 @@ deploy-swarm:
           DOCKER_SWARM_REPLICAS=${DOCKER_SWARM_REPLICAS:-1}
           DOCKER_SWARM_SERVICE_NAME=${DOCKER_SWARM_SERVICE_NAME:-$WERCKER_GIT_REPOSITORY}
           ssh root@$DOCKER_SWARM_HOST "docker service ps $DOCKER_SWARM_SERVICE_NAME \
-          && docker service update --detach=false --replicas $DOCKER_SWARM_REPLICAS --with-registry-auth --image $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT $DOCKER_SWARM_SERVICE_NAME \
+          && docker service update --detach=false --update-order=start-first --replicas $DOCKER_SWARM_REPLICAS --with-registry-auth --image $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT $DOCKER_SWARM_SERVICE_NAME \
           || docker service create --detach=false --name $DOCKER_SWARM_SERVICE_NAME --publish 80:80 --replicas $DOCKER_SWARM_REPLICAS --with-registry-auth $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT"
