@@ -97,7 +97,7 @@ deploy-swarm:
     - add-ssh-key:
         name: add ssh key
         keyname: DOCKER_SWARM_KEY
-    - weyforth/docker-swarm@0.1.1
+    - weyforth/docker-swarm@0.1.1:
         name: deploy image
         manager: $DOCKER_SWARM_MANAGER
         user: $DOCKER_SWARM_USER
