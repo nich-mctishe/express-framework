@@ -54,35 +54,8 @@ build:
           cp -r src "$WERCKER_OUTPUT_DIR"
           cp -r dokku "$WERCKER_OUTPUT_DIR"
           mv "$WERCKER_OUTPUT_DIR/dokku/Dockerfile" "$WERCKER_OUTPUT_DIR/Dockerfile"
-    # - script:
-    #     name: generate kubernetes controller file
-    #     code: ./node-controller.yml.sh
-    # - script:
-    #     name: install gcloud
-    #     code: |
-    #       curl https://sdk.cloud.google.com | bash
-    #       source ~/.bashrc
-    # - script:
-    #     name: install jq
-    #     code: |
-    #       wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5rc1/jq-linux-x86_64-static
-    #       chmod a+x /usr/local/bin/jq
-    # - script:
-    #     name: gcr.io authentication
-    #     code: |
-    #       gcloud auth activate-refresh-token $GCLOUD_ACCOUNT $GCLOUD_REFRESH_TOKEN
-    #       gcloud docker --authorize-only
-    #       export GCR_AUTH_TOKEN=$(cat $HOME/.dockercfg | jq --raw-output '.["https://gcr.io"].auth' | base64 --decode | cut -d ':' -f2)
-    # - internal/docker-push:
-    #     username: _token
-    #     password: $GCR_AUTH_TOKEN
-    #     repository: gcr.io/$GCR_PROJECT/$GCR_IMAGE
-    #     tag: $WERCKER_GIT_COMMIT
-    #     registry: https://gcr.io
-    #     working-dir: $WERCKER_SOURCE_DIR
-    #     cmd: node index.js
 
-deploy:
+deploy-dokku:
   steps:
     - add-to-known_hosts:
         hostname: $DOKKU_HOST
@@ -106,44 +79,19 @@ deploy:
         code: |
           git push -f dokku master
 
-  # initialize:
-  #   - script:
-  #       name: debug
-  #       code: cat node-controller.yml
-  #
-  #   - kubectl:
-  #       server: $GCE_SERVER
-  #       username: $GCE_USERNAME
-  #       password: $GCE_PASSWORD
-  #       insecure-skip-tls-verify: true
-  #       command: create -f mongo.yml
-  #
-  #   - kubectl:
-  #       server: $GCE_SERVER
-  #       username: $GCE_USERNAME
-  #       password: $GCE_PASSWORD
-  #       insecure-skip-tls-verify: true
-  #       command: create -f mongo-service.yml
-  #
-  #   - kubectl:
-  #       server: $GCE_SERVER
-  #       username: $GCE_USERNAME
-  #       password: $GCE_PASSWORD
-  #       insecure-skip-tls-verify: true
-  #       command: create -f node-controller.yml
-  #
-  #   - kubectl:
-  #       server: $GCE_SERVER
-  #       username: $GCE_USERNAME
-  #       password: $GCE_PASSWORD
-  #       insecure-skip-tls-verify: true
-  #       command: create -f node-service.yml
-  #
-  # rolling-update:
-  #   - kubectl:
-  #       server: $GCE_SERVER
-  #       username: $GCE_USERNAME
-  #       password: $GCE_PASSWORD
-  #       insecure-skip-tls-verify: true
-  #       command: rolling-update node
-  #       image: gcr.io/$GCR_PROJECT/$GCR_IMAGE:$WERCKER_GIT_COMMIT
+deploy-swarm:
+  steps:
+    - internal/docker-push:
+        username: $DOCKER_REGISTRY_USERNAME
+        password: $DOCKER_REGISTRY_PASSWORD
+        tag: $WERCKER_GIT_COMMIT
+        repository: $DOCKER_REGISTRY_REPO
+        registry: $DOCKER_REGISTRY
+        working-dir: $WERCKER_ROOT/src
+        cmd: node index
+        env: NODE_ENV=production
+        ports: "80"
+    - add-to-known_hosts:
+        hostname: $DOCKER_SWARM_HOST
+    - add-ssh-key:
+        keyname: DOCKER_SWARM_KEY
