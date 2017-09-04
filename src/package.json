@@ -43,10 +43,11 @@
     "docker-secrets-to-env": "1.0.0"
   },
   "scripts": {
-    "lint"   : "node_modules/.bin/standard",
-    "dev"    : "node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 node_modules/.bin/webpack-dev-server --colors --content-base public/ --host 0.0.0.0 --port 80 --hot --inline",
-    "watch"  : "env $([ ! -f ../ENVIRONMENT_LOCAL ] || (cat ../ENVIRONMENT_LOCAL | xargs)) node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 index.js",
-    "test"   : "npm run lint",
-    "webpack": "node_modules/.bin/webpack"
+    "lint"      : "node_modules/.bin/standard",
+    "dev"       : "node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 node_modules/.bin/webpack-dev-server --colors --content-base public/ --host 0.0.0.0 --port 80 --hot --inline",
+    "watch"     : "env $([ ! -f ../ENVIRONMENT_LOCAL ] || (cat ../ENVIRONMENT_LOCAL | xargs)) node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 index.js",
+    "test"      : "npm run lint",
+    "webpack"   : "node_modules/.bin/webpack",
+    "production": "NODE_ENV=production DEBUG=app,app:* DEBUG_COLORS=1 node index"
   }
 }

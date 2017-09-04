@@ -88,7 +88,7 @@ deploy-swarm:
         repository: $DOCKER_REGISTRY_REPO
         registry: $DOCKER_REGISTRY
         working-dir: $WERCKER_ROOT/src
-        cmd: NODE_ENV=production DEBUG=app,app:* DEBUG_COLORS=1 node index
+        cmd: npm run production
         ports: "80"
     - add-to-known_hosts:
         name: add to known hosts
