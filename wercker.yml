@@ -84,11 +84,11 @@ deploy-swarm:
     - internal/docker-push:
         username: $DOCKER_REGISTRY_USERNAME
         password: $DOCKER_REGISTRY_PASSWORD
-        tag: $WERCKER_GIT_COMMIT
+        tag: $WERCKER_GIT_COMMIT,latest
         repository: $DOCKER_REGISTRY_REPO
         registry: $DOCKER_REGISTRY
         working-dir: $WERCKER_ROOT/src
-        cmd: npm run production
+        cmd: node index
         ports: "80"
     - add-to-known_hosts:
         name: add to known hosts
