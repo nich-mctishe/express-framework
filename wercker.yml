@@ -51,9 +51,14 @@ build:
     - script:
         name: export the application
         code: |
-          cp -r src "$WERCKER_OUTPUT_DIR"
-          cp -r dokku "$WERCKER_OUTPUT_DIR"
-          mv "$WERCKER_OUTPUT_DIR/dokku/Dockerfile" "$WERCKER_OUTPUT_DIR/Dockerfile"
+          cp -r "$WERCKER_ROOT/src" "$WERCKER_OUTPUT_DIR"
+          cp -r "$WERCKER_ROOT/dokku" "$WERCKER_OUTPUT_DIR"
+          cp "$WERCKER_OUTPUT_DIR/dokku/Dockerfile" "$WERCKER_OUTPUT_DIR/Dockerfile"
+          rm -rf "$WERCKER_OUTPUT_DIR/src/pubic/css"
+    - npm-install:
+        name: install node production dependencies
+        options: --no-optional --silent --only=production
+        cwd: "$WERCKER_OUTPUT_DIR/src"
 
 deploy-dokku:
   steps:
@@ -85,13 +90,18 @@ docker-push:
     tag: 6.9.5-alpine
     cmd: /bin/sh
   steps:
+    - script:
+        name: clean
+        code: |
+          rm -rf "$WERCKER_ROOT/Dockerfile"
+          rm -rf "$WERCKER_ROOT/dokku"
     - internal/docker-push:
         username: $DOCKER_REGISTRY_USERNAME
         password: $DOCKER_REGISTRY_PASSWORD
         tag: $WERCKER_GIT_COMMIT
         repository: $DOCKER_REGISTRY_REPO
         registry: $DOCKER_REGISTRY
-        working-dir: $WERCKER_ROOT
+        working-dir: "$WERCKER_ROOT/src"
         cmd: npm run production
         ports: "80"
     - script:
