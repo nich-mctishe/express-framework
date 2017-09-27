@@ -47,6 +47,7 @@
     "dev"       : "node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 node_modules/.bin/webpack-dev-server --colors --content-base public/ --host 0.0.0.0 --port 80 --hot --inline",
     "watch"     : "env $([ ! -f ../ENVIRONMENT_LOCAL ] || (cat ../ENVIRONMENT_LOCAL | xargs)) node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 index.js",
     "test"      : "npm run lint",
-    "webpack"   : "node_modules/.bin/webpack"
+    "webpack"   : "node_modules/.bin/webpack",
+    "production": "NODE_ENV=production node index"
   }
 }

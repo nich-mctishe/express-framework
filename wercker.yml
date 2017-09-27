@@ -79,27 +79,46 @@ deploy-dokku:
         code: |
           git push -f dokku master
 
-deploy-swarm:
+docker-push:
+  box:
+    id: node
+    tag: 6.9.5-alpine
+    cmd: /bin/sh
   steps:
     - internal/docker-push:
         username: $DOCKER_REGISTRY_USERNAME
         password: $DOCKER_REGISTRY_PASSWORD
-        tag: $WERCKER_GIT_COMMIT,latest
+        tag: $WERCKER_GIT_COMMIT
         repository: $DOCKER_REGISTRY_REPO
         registry: $DOCKER_REGISTRY
-        working-dir: $WERCKER_ROOT/src
-        cmd: node index
+        working-dir: $WERCKER_ROOT
+        cmd: npm run production
         ports: "80"
-    - add-to-known_hosts:
-        name: add to known hosts
-        hostname: $DOCKER_SWARM_MANAGER
-    - add-ssh-key:
-        name: add ssh key
-        keyname: DOCKER_SWARM_KEY
-    - weyforth/docker-swarm@0.1.1:
-        name: deploy image
-        manager: $DOCKER_SWARM_MANAGER
-        user: $DOCKER_SWARM_USER
-        service: $DOCKER_SWARM_SERVICE
-        image: $DOCKER_REGISTRY_REPO
-        tag: $WERCKER_GIT_COMMIT
+    - script:
+        name: success
+        code: success "image pushed - $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT"
+
+# deploy-swarm:
+#   steps:
+#     - internal/docker-push:
+#         username: $DOCKER_REGISTRY_USERNAME
+#         password: $DOCKER_REGISTRY_PASSWORD
+#         tag: $WERCKER_GIT_COMMIT,latest
+#         repository: $DOCKER_REGISTRY_REPO
+#         registry: $DOCKER_REGISTRY
+#         working-dir: $WERCKER_ROOT/src
+#         cmd: node index
+#         ports: "80"
+#     - add-to-known_hosts:
+#         name: add to known hosts
+#         hostname: $DOCKER_SWARM_MANAGER
+#     - add-ssh-key:
+#         name: add ssh key
+#         keyname: DOCKER_SWARM_KEY
+#     - weyforth/docker-swarm@0.1.1:
+#         name: deploy image
+#         manager: $DOCKER_SWARM_MANAGER
+#         user: $DOCKER_SWARM_USER
+#         service: $DOCKER_SWARM_SERVICE
+#         image: $DOCKER_REGISTRY_REPO
+#         tag: $WERCKER_GIT_COMMIT
