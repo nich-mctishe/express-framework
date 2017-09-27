@@ -9,6 +9,7 @@
 
 /ENVIRONMENT_LOCAL
 
+/src/package-lock.json
 /src/node_modules/
 /src/npm-debug.log
 /src/public/js/vendor/

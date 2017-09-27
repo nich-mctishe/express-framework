@@ -1,6 +1,6 @@
 box:
   id: node
-  tag: 6.9.5
+  tag: 8.6.0
   ports:
     - '80'
     - '3000'
@@ -54,6 +54,7 @@ build:
           cp -r "$WERCKER_ROOT/src" "$WERCKER_OUTPUT_DIR"
           cp -r "$WERCKER_ROOT/dokku" "$WERCKER_OUTPUT_DIR"
           cp "$WERCKER_OUTPUT_DIR/dokku/Dockerfile" "$WERCKER_OUTPUT_DIR/Dockerfile"
+          rm -rf "$WERCKER_OUTPUT_DIR/src/node_modules"
           rm -rf "$WERCKER_OUTPUT_DIR/src/pubic/css"
     - npm-install:
         name: install node production dependencies
@@ -87,7 +88,7 @@ deploy-dokku:
 docker-push:
   box:
     id: node
-    tag: 6.9.5-alpine
+    tag: 8.6.0-alpine
     cmd: /bin/sh
   steps:
     - script:
