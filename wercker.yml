@@ -39,7 +39,7 @@ build:
   steps:
     - npm-install:
         name: install node dependencies
-        options: --no-optional --silent
+        options: --no-optional --silent --only=dev
         cwd: $WERCKER_ROOT/src
     - npm-test:
         name: run tests
