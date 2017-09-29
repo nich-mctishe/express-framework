@@ -55,7 +55,7 @@ build:
           cp -r "$WERCKER_ROOT/dokku" "$WERCKER_OUTPUT_DIR"
           cp "$WERCKER_OUTPUT_DIR/dokku/Dockerfile" "$WERCKER_OUTPUT_DIR/Dockerfile"
           rm -rf "$WERCKER_OUTPUT_DIR/src/node_modules"
-          rm -rf "$WERCKER_OUTPUT_DIR/src/pubic/css"
+          rm -rf "$WERCKER_OUTPUT_DIR/src/public/css"
     - npm-install:
         name: install node production dependencies
         options: --no-optional --silent --only=production
