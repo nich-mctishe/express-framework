@@ -1,0 +1,12 @@
+#!/bin/bash
+
+step "install dependencies"
+npm install --no-optional
+
+step "link dev tools"
+ln -s "/app/tools/reload" /usr/bin/reload
+ln -s "/app/tools/reload" /usr/bin/restart
+
+step "run"
+logger webpack npm run dev
+logger watch npm run watch

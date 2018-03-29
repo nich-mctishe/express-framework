@@ -1,0 +1,11 @@
+version: '3'
+services:
+  main:
+    image: node:8.11.0
+    ports:
+      - '80:80'
+      - '3000:3000'
+      - '3001:3001'
+    working_dir: /app/src
+    volumes:
+      - .:/app

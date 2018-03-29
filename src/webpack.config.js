@@ -7,6 +7,7 @@ var ManifestPlugin = require('webpack-manifest-plugin')
 var isProduction = process.argv.indexOf('-p') >= 0
 
 var config = {
+  mode: isProduction ? 'production' : 'development',
   entry: {
     app: './public/js/app.js'
   },
@@ -35,10 +36,10 @@ var config = {
       })
     },
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      filename: isProduction ? '[name]_[hash].js' : '[name].js'
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'common',
+    //   filename: isProduction ? '[name]_[hash].js' : '[name].js'
+    // }),
     new webpack.NoEmitOnErrorsPlugin()
   ],
   watchOptions: {
@@ -58,9 +59,9 @@ if (isProduction) {
   config.module.rules = _.union(config.module.rules, [
     {
       test: /\.(p)?css$/,
-      loader: ExtractTextPlugin.extract({
-        fallbackLoader: 'style-loader',
-        loader: 'css-loader?-url!postcss-loader'
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: 'css-loader?-url!postcss-loader'
       })
     }
   ])
