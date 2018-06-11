@@ -1,22 +1,78 @@
 require('docker-secrets-to-env')
+require('./utils/watch')
 
-var express = require('express')
-var morgan = require('morgan')
+const express = require('express')
+const morgan = require('morgan')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const graphqlHTTP = require('express-graphql')
+const Schema = require('./schema/Master')
 
-morgan.token('remote-addr', function (req, res) {
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://' +
+  process.env.MONGO_PORT_27017_TCP_ADDR +
+  ':' + process.env.MONGO_PORT_27017_TCP_PORT +
+  '/project'
+
+morgan.token('remote-addr', (req, res) => {
   return req.headers['x-forwarded-for'] || req.ip
 })
 
-var app = express()
-var development = process.env.NODE_ENV === 'development'
+mongoose
+  .set('debug', true)
+  .connect(MONGO_URL)
+  .then(() => {
+    Schema((err, schema) => {
+      if (err) return console.error(err)
+      console.log('graphql server starting at http://localhost/graphql')
+      console.log('graphql-playground starting at http://localhost/debug')
 
-app.set('view engine', 'pug')
-app.set('views', './templates/views')
+      const app = express()
 
-app.use(express.static('public'))
-app.use(morgan(development ? 'dev' : ':remote-addr [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'))
+      app.use(bodyParser.urlencoded({ extended: true }))
+      app.use(bodyParser.json())
 
-require('./routes')(app)
-require('./utils/watch')
+      app.use('/graphql', graphqlHTTP({
+        schema: schema,
+        graphiql: false
+      }))
+      if (process.env.NODE_ENV !== 'production') {
+        const expressPlayground = require('graphql-playground-middleware-express').default
+        app.get('/debug', expressPlayground({ endpoint: '/graphql'}))
+      }
 
-app.listen(process.env.PORT || 80)
+      return app.listen(process.env.PORT || 80)
+    })
+  })
+  .catch(err => {
+    console.error(err)
+    process.exit(1)
+  })
+
+  /**
+   * The below index structure  will work specifically for the Basic schema
+   * NB: the const Schema will need to be amended so its required from ./schema/Basic
+   */
+  // mongoose
+  //   .set('debug', true)
+  //   .connect(MONGO_URL)
+  //   .then(() => {
+  //     // if (err) return console.error(err)
+  //     console.log('graphql server starting at http://localhost/graphql')
+  //     console.log('graphql-playground starting at http://localhost/playground')
+  //
+  //     const app = express()
+  //
+  //     app.use(bodyParser.urlencoded({ extended: true }))
+  //     app.use(bodyParser.json())
+  //
+  //     app.use('/graphql', graphqlHTTP({
+  //       schema: Schema,
+  //       graphiql: false
+  //     }))
+  //     if (process.env.NODE_ENV !== 'production') {
+  //       const expressPlayground = require('graphql-playground-middleware-express').default
+  //       app.get('/debug', expressPlayground({ endpoint: '/graphql'}))
+  //     }
+  //
+  //     return app.listen(process.env.PORT || 80)
+  //   })

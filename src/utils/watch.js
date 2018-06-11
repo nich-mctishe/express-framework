@@ -8,7 +8,11 @@ if (process.env.NODE_ENV !== 'production') {
   })
 
   var watcher = chokidar.watch([
-    './routes'
+    './routes',
+    './helpers',
+    './models',
+    './schema',
+    './utils'
   ], {
     usePolling: true,
     interval: 1000

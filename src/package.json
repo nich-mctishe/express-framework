@@ -1,8 +1,8 @@
 {
-  "name": "express-framework",
+  "name": "express-graphql-framework",
   "private": true,
   "version": "1.0.0",
-  "description": "Docker based Express framework",
+  "description": "Docker based Express framework with GraphQL implementation",
   "author": "Mike Farrow <contact@mikefarrow.co.uk>",
   "devDependencies": {
     "standard": "8.6.0",
@@ -34,20 +34,29 @@
     "normalize.css": "5.0.0"
   },
   "dependencies": {
+    "chokidar": "1.4.2",
     "express": "4.14.1",
     "debug": "2.6.0",
     "pug": "2.0.0-beta10",
-    "lodash": "4.17.4",
+    "lodash": "4.17.5",
     "async": "2.1.4",
     "morgan": "1.8.1",
-    "docker-secrets-to-env": "1.0.0"
+    "docker-secrets-to-env": "1.0.0",
+    "graphql": "0.13.1",
+    "mongoose": "5.0.6",
+    "express-graphql": "0.6.11",
+    "graphql-playground-middleware-express": "1.5.6",
+    "mongoose-find-or-create": "1.2.0",
+    "graphql-compose": "3.0.4",
+    "graphql-compose-mongoose": "1.11.2",
+    "body-parser": "1.18.2"
   },
   "scripts": {
-    "lint"      : "node_modules/.bin/standard",
-    "dev"       : "node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 node_modules/.bin/webpack-dev-server --colors --content-base public/ --host 0.0.0.0 --port 80 --hot --inline",
-    "watch"     : "env $([ ! -f ../ENVIRONMENT_LOCAL ] || (cat ../ENVIRONMENT_LOCAL | xargs)) node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 index.js",
-    "test"      : "npm run lint",
-    "webpack"   : "node_modules/.bin/webpack",
+    "lint": "node_modules/.bin/standard",
+    "dev": "node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 node_modules/.bin/webpack-dev-server --colors --content-base public/ --host 0.0.0.0 --port 80 --hot --inline",
+    "watch": "env $([ ! -f ../ENVIRONMENT_LOCAL ] || (cat ../ENVIRONMENT_LOCAL | xargs)) node_modules/.bin/forever --minUptime 1000 --spinSleepTime 1000 index.js",
+    "test": "npm run lint",
+    "webpack": "node_modules/.bin/webpack",
     "production": "NODE_ENV=production node index"
   }
 }
