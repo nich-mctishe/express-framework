@@ -8,15 +8,13 @@
  */
 
 const Schema = require('../helpers/Schema')
-const TestRelationshipTC = require('./TestRelationship')
 
 let testSchema = new Schema({
-  name: 'Test',
+  name: 'TestRelationship',
   data: {
     name: { type: String, required: true },
     slug: { type: String, required: true },
-    value: { type: Number, required: true },
-    testRelationship: { type: 'id', ref: 'TestRelationship'}
+    value: { type: Number, required: true }
   },
   // determines if should apply findOrCreate plugin
   hasPlugin: true
@@ -25,16 +23,16 @@ let testSchema = new Schema({
 const TC = testSchema.graphQL()
 
 // Use this to add a database relationto graph QL
-TC.addRelation(
-  'testRelationship',
-  {
-    resolver: TestRelationshipTC.graphQL().getResolver('findById'),
-    prepareArgs: { // resolver `findById` has `_id` arg, let provide value to it
-      _id: (source) => source.testRelationship
-    },
-    projection: { testRelationship: 1 }, // point fields in source object, which should be fetched from DB
-  }
-)
+// TC.addRelation(
+//   'MoreTest',
+//   {
+//     resolver: MoreTestTC.getResolver('findById'),
+//     prepareArgs: { // resolver `findById` has `_id` arg, let provide value to it
+//       _id: (source) => source.draw
+//     },
+//     projection: { moreTest: 1 }, // point fields in source object, which should be fetched from DB
+//   }
+// )
 
 module.exports = {
   mongoose: testSchema.mongoose(),

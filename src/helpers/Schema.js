@@ -1,3 +1,4 @@
+const global = require('../config/options')
 const { composeWithMongoose } = require('graphql-compose-mongoose')
 const Mongoose = require('mongoose')
 const Schema = Mongoose.Schema
@@ -38,8 +39,10 @@ const schema = (data) => {
  * @returns {Mongoose.model}
  */
 const setup = (instance) => {
-  console.log(instance.name + ' : ====')
-  console.log(instance.customizationOptions)
+  if (global.debug) {
+    console.log('Model Name: ' + instance.name)
+    console.log(instance.customizationOptions || 'no customisation options supplied')
+  }
 
   if (instance.preSave) {
     instance.schema.pre('save', this.preSave)
