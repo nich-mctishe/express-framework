@@ -33,7 +33,7 @@ const getModels = (callback) => {
     async.eachSeries(files, (file, next) => {
       if (file !== '.DS_Store') {
         let name = file.replace('.js', '')
-        models[name] = require('../models/' + name).graphQL
+        models[name] = require('../models/' + name).graphQL()
       }
 
       next()

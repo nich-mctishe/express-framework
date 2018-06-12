@@ -55,7 +55,9 @@ const setup = (instance) => {
     })
   }
 
-  return Mongoose.model(instance.name, instance.schema)
+  instance.mongose = Mongoose.model(instance.name, instance.schema)
+
+  return instance.mongose
 }
 
 /**
@@ -74,6 +76,8 @@ class Builder {
     this.hasPlugin = config.plugin
     this.preSave = config.preSave
     this.customizationOptions = config.customizationOptions
+    this.graph = null
+    this.mongose = null
   }
 
   /**
@@ -83,7 +87,9 @@ class Builder {
    * @return {GraphQL}
    */
   graphQL () {
-    return composeWithMongoose(setup(this), this.customizationOptions || {})
+    if (!this.graph) this.graph = composeWithMongoose(this.mongoose(), this.customizationOptions || {})
+
+    return this.graph
   }
 
   /**
@@ -93,7 +99,7 @@ class Builder {
    * @returns {Mongoose.model}
    */
   mongoose () {
-    return setup(this)
+    return this.mongose || setup(this)
   }
 
   /**
