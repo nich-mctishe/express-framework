@@ -2,6 +2,7 @@ require('docker-secrets-to-env')
 require('./utils/watch')
 
 const express = require('express')
+const global = require('./config/options')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -40,7 +41,7 @@ mongoose
         app.get('/debug', expressPlayground({ endpoint: '/graphql'}))
       }
 
-      return app.listen(process.env.PORT || 80)
+      return app.listen(process.env.PORT || global.port)
     })
   })
   .catch(err => {
