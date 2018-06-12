@@ -1,0 +1,3 @@
+model,name,slug,value
+Test,Nich,nich,1
+TestRelationship,nich,nich,2

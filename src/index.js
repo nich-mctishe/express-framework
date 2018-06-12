@@ -3,6 +3,7 @@ require('./utils/watch')
 
 const express = require('express')
 const global = require('./config/options')
+const seeder = require('./config/seeder')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -22,7 +23,8 @@ mongoose
   .set('debug', true)
   .connect(MONGO_URL)
   .then(() => {
-    Schema((err, schema) => {
+    // could put seeder in here
+    seeder(() => Schema((err, schema) => {
       if (err) return console.error(err)
       console.log('graphql server starting at http://localhost/graphql')
       console.log('graphql-playground starting at http://localhost/debug')
@@ -42,7 +44,7 @@ mongoose
       }
 
       return app.listen(process.env.PORT || global.port)
-    })
+    }))
   })
   .catch(err => {
     console.error(err)

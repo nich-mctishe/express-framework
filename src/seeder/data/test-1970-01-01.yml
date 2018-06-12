@@ -1,0 +1,6 @@
+-
+  model: 'test'
+  data:
+    name: 'Nich'
+    slug: 'nich'
+    value: 1

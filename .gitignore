@@ -7,6 +7,8 @@
 *.log
 *.log.*
 
+*.~lock.*
+
 /ENVIRONMENT_LOCAL
 
 /src/package-lock.json

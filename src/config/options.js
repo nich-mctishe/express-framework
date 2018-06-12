@@ -5,5 +5,8 @@ module.exports = {
   MONGO_URL: process.env.MONGO_URL || 'mongodb://' +
     process.env.MONGO_PORT_27017_TCP_ADDR +
     ':' + process.env.MONGO_PORT_27017_TCP_PORT +
-    '/' + this.dbName
+    '/' + this.dbName,
+  folders: {
+    models: __dirname + '/../models/'
+  }
 }

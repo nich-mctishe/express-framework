@@ -2,8 +2,7 @@ const { GQC } = require('graphql-compose')
 const fs = require('fs')
 const async = require('async')
 const _ = require('lodash')
-//  get all models
-const modelFolder = __dirname + '/../models/'
+const models = require('../helpers/models')
 
 const base = {
   query: {
@@ -24,25 +23,6 @@ const base = {
     'RemoveOne': 'removeOne',
     'RemoveMany': 'removeMany'
   }
-}
-
-// get list of required models
-const getModels = (callback) => {
-  let models = {}
-  fs.readdir(modelFolder, (err, files) => {
-    async.eachSeries(files, (file, next) => {
-      if (file !== '.DS_Store') {
-        let name = file.replace('.js', '')
-        models[name] = require('../models/' + name).graphQL()
-      }
-
-      next()
-    }, (err) => {
-      if (err) return callback(err)
-
-      return callback(null, models)
-    })
-  })
 }
 
 // build all fields
@@ -71,7 +51,7 @@ const getCustom = (fields, callback) => {
 
 module.exports = (next) => {
   async.waterfall([
-    getModels,
+    async.apply(models.get, false),
     getFields,
     getCustom
   ], (err, results) => {

@@ -79,8 +79,8 @@ class Builder {
     this.hasPlugin = config.plugin
     this.preSave = config.preSave
     this.customizationOptions = config.customizationOptions
-    this.graph = null
-    this.mongose = null
+    this._graphQL = null
+    this._mongoose = null
   }
 
   /**
@@ -90,9 +90,9 @@ class Builder {
    * @return {GraphQL}
    */
   graphQL () {
-    if (!this.graph) this.graph = composeWithMongoose(this.mongoose(), this.customizationOptions || {})
+    if (!this._graphQL) this._graphQL = composeWithMongoose(this.mongoose(), this.customizationOptions || {})
 
-    return this.graph
+    return this._graphQL
   }
 
   /**
@@ -102,7 +102,7 @@ class Builder {
    * @returns {Mongoose.model}
    */
   mongoose () {
-    return this.mongose || setup(this)
+    return this._mongose || setup(this)
   }
 
   /**
