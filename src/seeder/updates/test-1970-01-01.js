@@ -18,22 +18,52 @@ const meta = {
 }
 
 module.exports = (data, models, helper, next) => {
+  // for xml
+  // data = helper.format.toStandardType(data)
+
   helper.logging.init(meta)
-
+  let parents = []
   // run required tasks here. for example:
+  async.eachSeries(data, (line, callback) => {
+    if (helper.line.hasParent(line.data)) {
+      parents.push(line)
 
-  console.log(data)
-  console.log(models)
+      return callback()
+    }
+    // if model has a parent, put in parents, then move to next
+    helper.model.insert(
+      models[helper.string.classCase(line.model)],
+      {slug: line.data.slug},
+      line.data,
+      callback
+    )
+  }, (err) => {
+    if (err) return next(err)
 
-  next()
+    if (!parents.length) {
+      return next()
+    }
 
-// async.eachSeries(data, (data, callback) => {
-//   // let key = _.findKey(data)
-//   // Set[key](key, models[key], data, callback)
-//
-// }, (err) => {
-//   if (err) return next(err)
-//
-//   next()
-// })
+    // otherwise run through parents
+    async.eachSeries(parents, (line, callback) => {
+      let parent = helper.model.find.parent(line.data).data
+      let parentIndex = helper.model.find.parentIndex(line.data)
+
+      helper.model.insertParent(
+        models[helper.string.classCase(parentIndex)],
+        models[helper.string.classCase(line.model)],
+        parent,
+        {slug: line.data.slug},
+        parentIndex,
+        line.data,
+        callback
+      )
+    }, (err) => {
+      if (err) {
+        return next(err)
+      }
+
+      return next()
+    })
+  })
 }

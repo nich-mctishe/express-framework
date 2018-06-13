@@ -7,6 +7,7 @@ const seeder = require('./config/seeder')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const findOrCreate = require('mongoose-find-or-create')
 const graphqlHTTP = require('express-graphql')
 const Schema = require('./schema/Master')
 
@@ -20,6 +21,7 @@ morgan.token('remote-addr', (req, res) => {
 })
 
 mongoose
+  .plugin(findOrCreate)
   .set('debug', true)
   .connect(MONGO_URL)
   .then(() => {
