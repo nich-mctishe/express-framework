@@ -8,6 +8,7 @@
 *.log.*
 
 *.~lock.*
+*.DS_Store
 
 /ENVIRONMENT_LOCAL
 
