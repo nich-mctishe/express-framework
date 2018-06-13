@@ -7,6 +7,8 @@ module.exports = {
   get: (mongoose, callback) => {
     let models = {}
     fs.readdir(global.folders.models, (err, files) => {
+      if (err) return callback(err)
+
       async.eachSeries(files, (file, next) => {
         if (file !== '.DS_Store') {
           let name = file.replace('.js', '')

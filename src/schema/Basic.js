@@ -2,14 +2,11 @@
  * This schema can be assingned as an invidividual model based schema in case
  * a more simplified model approach is required
  */
-
-const mongoose = require('mongoose')
-const { composeWithMongoose } = require('graphql-compose-mongoose')
-const { GQC } = require('graphql-compose')
-
 const Mongoose = require('mongoose')
 const Schema = Mongoose.Schema
 const findOrCreate = require('mongoose-find-or-create')
+const { composeWithMongoose } = require('graphql-compose-mongoose')
+const { GQC } = require('graphql-compose')
 
 let testSchema = new Schema({
   name: { type: String, index: true },
@@ -21,7 +18,7 @@ testSchema.plugin(findOrCreate)
 
 let Test = Mongoose.model('Test', testSchema)
 
-const customizationOptions = {}; // left it empty for simplicity, described below
+const customizationOptions = {} // left it empty for simplicity, described below
 const TestTC = composeWithMongoose(Test, customizationOptions)
 
 GQC.rootQuery().addFields({

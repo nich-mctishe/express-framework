@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   debug: true,
   port: 80,
@@ -7,6 +9,6 @@ module.exports = {
     ':' + process.env.MONGO_PORT_27017_TCP_PORT +
     '/' + this.dbName,
   folders: {
-    models: __dirname + '/../models/'
+    models: path.join(__dirname, '/../models/')
   }
 }

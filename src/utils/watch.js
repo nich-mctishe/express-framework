@@ -8,6 +8,7 @@ if (process.env.NODE_ENV !== 'production') {
   })
 
   const watcher = chokidar.watch([
+    './config',
     './routes',
     './helpers',
     './models',

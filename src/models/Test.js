@@ -16,7 +16,7 @@ let testSchema = new Schema({
     name: { type: String, required: true },
     slug: { type: String, required: true },
     value: { type: Number, required: true },
-    testRelationship: { type: 'id', ref: 'TestRelationship'}
+    testRelationship: { type: 'id', ref: 'TestRelationship' }
   },
   // determines if should apply findOrCreate plugin
   hasPlugin: true
@@ -32,7 +32,7 @@ TC.addRelation(
     prepareArgs: { // resolver `findById` has `_id` arg, let provide value to it
       _id: (source) => source.testRelationship
     },
-    projection: { testRelationship: 1 }, // point fields in source object, which should be fetched from DB
+    projection: { testRelationship: 1 } // point fields in source object, which should be fetched from DB
   }
 )
 

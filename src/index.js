@@ -42,7 +42,7 @@ mongoose
       }))
       if (process.env.NODE_ENV !== 'production') {
         const expressPlayground = require('graphql-playground-middleware-express').default
-        app.get('/debug', expressPlayground({ endpoint: '/graphql'}))
+        app.get('/debug', expressPlayground({ endpoint: '/graphql' }))
       }
 
       return app.listen(process.env.PORT || global.port)

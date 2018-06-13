@@ -23,8 +23,8 @@ module.exports = (data, models, helper, next) => {
   // run required tasks here. for example:
 
   async.eachSeries(data, (data, callback) => {
-    // let key = _.findKey(data)
-    // Set[key](key, models[key], data, callback)
+    let key = _.findKey(data)
+    Set[key](key, models[key], data, callback)
   }, (err) => {
     if (err) return next(err)
 

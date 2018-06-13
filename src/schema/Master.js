@@ -1,5 +1,4 @@
 const { GQC } = require('graphql-compose')
-const fs = require('fs')
 const async = require('async')
 const _ = require('lodash')
 const models = require('../helpers/models')

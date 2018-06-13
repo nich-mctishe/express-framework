@@ -1,6 +1,6 @@
 const fs = require('fs')
 const _ = require('lodash')
-const debug = require('util').inspect
+// const debug = require('util').inspect
 
 const method = {
   yml: require('js-yaml').safeLoad,

@@ -47,7 +47,7 @@ helper.prototype.format = {
    * @param {Object} data = xml parsed data
    */
   toStandardType: (data) => {
-    let formatted = []
+    let formatted = data // []
 
     // _.each(data.root.children, (element) => {
     //   let model = {
@@ -58,7 +58,7 @@ helper.prototype.format = {
     //
     // })
 
-    return data
+    return formatted
   }
 }
 

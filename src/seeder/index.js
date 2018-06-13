@@ -1,8 +1,7 @@
 const _ = require('lodash')
-const updates = require('./models/updates')
 const fs = require('fs')
 const async = require('async')
-const helper = require('./helpers/default')
+const Helper = require('./helpers/default')
 const support = require('./helpers/seeder')
 const Data = require('./helpers/data')
 
@@ -32,7 +31,7 @@ const getData = (folder, file) => {
  * @returns String
  */
 const runSeed = (models, folder, file, callback) => {
-  require(folder + file)(getData(folder, file), models, new helper(), (error) => {
+  require(folder + file)(getData(folder, file), models, new Helper(), (error) => {
     if (error) return callback(error)
 
     callback(null, file)
@@ -51,8 +50,11 @@ module.exports = {
   run: (folder, models, next) => {
     // cycle through files in updates folder
     console.log('checking seeder for database updates')
-
     fs.readdir(folder, (err, files) => {
+      if (err) {
+        return next(err)
+      }
+
       if (!files.length) {
         console.log('no files in updates folder, moving on to next process')
 
@@ -60,7 +62,7 @@ module.exports = {
       }
 
       async.eachSeries(support.orderFiles(files), (file, callback) => {
-        if (file == '.DS_Store') return callback()
+        if (file === '.DS_Store') return callback()
 
         let name = _.trimEnd(file, '.js')
         console.log('beginning seeding for file ' + name)
