@@ -1,18 +1,19 @@
 if (process.env.NODE_ENV !== 'production') {
-  var chokidar = require('chokidar')
-  var browserSync = require('browser-sync')
+  const chokidar = require('chokidar')
+  const browserSync = require('browser-sync')
 
   browserSync.init({
     logLevel: 'silent',
     proxy: 'localhost'
   })
 
-  var watcher = chokidar.watch([
+  const watcher = chokidar.watch([
     './routes',
     './helpers',
     './models',
     './schema',
-    './utils'
+    './utils',
+    './seeder'
   ], {
     usePolling: true,
     interval: 1000
@@ -27,10 +28,11 @@ if (process.env.NODE_ENV !== 'production') {
       })
 
       browserSync.reload(path)
+      process.exit()
     })
   })
 
-  var templateWatcher = chokidar.watch([
+  const templateWatcher = chokidar.watch([
     './templates'
   ], {
     usePolling: true,
