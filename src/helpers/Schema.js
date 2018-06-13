@@ -45,7 +45,7 @@ const setup = (instance) => {
   }
 
   if (instance.preSave) {
-    instance.schema.pre('save', this.preSave)
+    instance.schema.pre('save', instance.preSave)
   }
 
   if (instance.hasPlugin) {
@@ -58,9 +58,9 @@ const setup = (instance) => {
     })
   }
 
-  instance.mongose = Mongoose.model(instance.name, instance.schema)
+  instance._mongoose = Mongoose.model(instance.name, instance.schema)
 
-  return instance.mongose
+  return instance._mongoose
 }
 
 /**
@@ -102,7 +102,7 @@ class Builder {
    * @returns {Mongoose.model}
    */
   mongoose () {
-    return this._mongose || setup(this)
+    return this._mongoose || setup(this)
   }
 
   /**

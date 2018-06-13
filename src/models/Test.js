@@ -8,6 +8,7 @@
  */
 
 const Schema = require('../helpers/Schema')
+const slugify = require('slugify')
 const TestRelationshipTC = require('./TestRelationship')
 
 let testSchema = new Schema({
@@ -19,7 +20,11 @@ let testSchema = new Schema({
     testRelationship: { type: 'id', ref: 'TestRelationship' }
   },
   // determines if should apply findOrCreate plugin
-  hasPlugin: true
+  hasPlugin: true,
+  preSave: function (next) {
+    this.slug = slugify(this.name)
+    next()
+  }
 })
 
 const TC = testSchema.graphQL()
@@ -35,10 +40,5 @@ TC.addRelation(
     projection: { testRelationship: 1 } // point fields in source object, which should be fetched from DB
   }
 )
-
-module.exports = {
-  mongoose: testSchema.mongoose(),
-  graphQL: TC
-}
 
 module.exports = testSchema
