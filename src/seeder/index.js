@@ -80,7 +80,7 @@ module.exports = {
         ], err => {
           if (err) console.log(err)
 
-          next()
+          callback()
         })
       })
     }, err => {
