@@ -22,7 +22,7 @@ let testSchema = new Schema({
   // determines if should apply findOrCreate plugin
   hasPlugin: true,
   preSave: function (next) {
-    this.slug = slugify(this.name)
+    this.slug = slugify(this.name.toLowerCase())
     next()
   }
 })

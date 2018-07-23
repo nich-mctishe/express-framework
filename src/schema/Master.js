@@ -10,8 +10,8 @@ const base = {
     'One': 'findOne',
     'Many': 'findMany',
     'Count': 'count',
-    'Connection': 'connection',
-    'Pagination': 'pagination'
+  // 'Connection': 'connection',
+  // 'Pagination': 'pagination'
   },
   mutation: {
     'Create': 'createOne',
