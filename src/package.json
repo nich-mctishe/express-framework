@@ -1,7 +1,7 @@
 {
   "name": "express-graphql-framework",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.2.2",
   "description": "Docker based Express framework with GraphQL implementation",
   "author": "Nich Headlong <nichheadlong@googlemail.com>",
   "devDependencies": {
