@@ -1,7 +1,7 @@
 {
   "name": "express-graphql-framework",
   "private": true,
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Docker based Express framework with GraphQL implementation",
   "author": "Nich Headlong <nichheadlong@googlemail.com>",
   "devDependencies": {
@@ -51,9 +51,7 @@
     "graphql-compose-mongoose": "1.11.2",
     "body-parser": "1.18.2",
     "slugify": "1.3.0",
-    "js-yaml": "3.8.1",
-    "xml-parser": "1.2.1",
-    "csvjson": "5.0.0"
+    "node-seeder": "git+https://github.com/nich-mctishe/node-seeder.git#1.0.0"
   },
   "scripts": {
     "lint": "node_modules/.bin/standard",
